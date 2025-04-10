@@ -3,8 +3,12 @@ let recetas = [];
 fetch("cocktail_recipes.json")
   .then(res => res.json())
   .then(data => {
-    recetas = data.recetas;
+    // Soporte para JSON con o sin propiedad 'recetas'
+    recetas = Array.isArray(data) ? data : data.recetas || [];
     renderCards(recetas);
+  })
+  .catch(error => {
+    console.error("Error al cargar el JSON:", error);
   });
 
 const container = document.getElementById("cocktailCards");
